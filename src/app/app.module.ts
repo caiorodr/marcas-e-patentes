@@ -15,31 +15,28 @@ import {DashboardComponent} from "./components/dashboard/dashboard.component";
 import {TableModule} from "primeng/table";
 import {InputTextModule} from "primeng/inputtext";
 import {InputNumberModule} from "primeng/inputnumber";
+import {ChartModule} from 'primeng/chart';
 
 import {TabViewModule} from 'primeng/tabview';
 import {CommonModule} from '@angular/common';
 import {CardModule} from 'primeng/card';
 import {MessageService} from 'primeng/api';
 import {ToastModule} from 'primeng/toast';
-import { WalletService } from './services/wallet.service';
 import {RatingModule} from "primeng/rating";
 import {DataViewModule} from "primeng/dataview";
 import {DropdownModule} from "primeng/dropdown";
-import { MyDomainsComponent } from './components/my/domains/my-domains.component';
 import {AppMainComponent} from "./app.main.component";
-import {BuyDomainComponent} from "./components/marketplace/buy-domain/buy-domain.component";
-import {ListDomainComponent} from "./components/marketplace/list-domain/list-domain.component";
-import {SearchListingsComponent} from "./components/marketplace/search-domain/search-listings.component";
+import { ProcessosComponent } from './components/processos/processos.component';
+import { PedidosComponent } from './components/pedidos/pedidos.component';
+
 
 @NgModule({
 	declarations: [
 		AppComponent,
 		DashboardComponent,
-  MyDomainsComponent,
 		AppMainComponent,
-		BuyDomainComponent,
-		ListDomainComponent,
-		SearchListingsComponent
+		ProcessosComponent,
+		PedidosComponent,
 	],
 	imports     : [
 		BrowserModule,
@@ -61,10 +58,11 @@ import {SearchListingsComponent} from "./components/marketplace/search-domain/se
 		FormsModule,
 		RatingModule,
 		DataViewModule,
-		DropdownModule
+		DropdownModule,
+		ChartModule
 	],
 	providers   : [
-		WalletService, MessageService
+		MessageService
 	],
 	bootstrap   : [AppComponent]
 })

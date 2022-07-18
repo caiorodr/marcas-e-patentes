@@ -30,6 +30,7 @@
               "src/assets"
             ],
             "styles": [
+              "./node_modules/chart.js/dist/chart.js",
               "src/styles.scss"
             ],
             "scripts": [
