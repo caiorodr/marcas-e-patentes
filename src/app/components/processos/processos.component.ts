@@ -1,23 +1,10 @@
-import { Component, OnInit } from '@angular/core';
-import { ProcessosService } from './services/processos.service';
+import { Component, OnInit,ViewChild } from '@angular/core';
 
-interface Product {
-	id?: string;
-	code?: string;
-	name?: string;
-	description?: string;
-	price?: number;
-	quantity?: number;
-	inventoryStatus?: string;
-	category?: string;
-	image?: string;
-	rating?: number;
-}
 
-interface SelectItem {
-	label?: string;
-	value?: string;
-}
+import { Customer, Representative } from './customer';
+import { CustomerService } from './customeservice';
+import { Table } from 'primeng/table';
+
 
 @Component({
 	selector: 'app-processos',
@@ -26,42 +13,84 @@ interface SelectItem {
 })
 
 
-export class ProcessosComponent implements OnInit {
+//
 
-	totalRecords: number = 0;
-	loading: boolean = false;
-	products: Product[] = [];
-	sortOptions: SelectItem[] = [];
-	sortKey: string = "";
-	sortOrder: number = 0;
-	sortField: string = "";
-	eBreakSet: boolean = false;
+export class ProcessosComponent implements OnInit{ 
+    customers!: Customer[] ;
 
-	constructor(private processosService: ProcessosService) { }
+    selectedCustomers!: Customer[];
 
-	ngOnInit() {
-		this.processosService.getProducts().then(data => this.products = data);
+    representatives!: Representative[];
 
-		this.sortOptions = [
-			{ label: 'Price High to Low', value: '!price' },
-			{ label: 'Price Low to High', value: 'price' }
-		];
-	}
+    statuses!: any[];
 
-	onSortChange(event) {
-		let value = event.value;
+    loading: boolean = true;
 
-		if (value.indexOf('!') === 0) {
-			this.sortOrder = -1;
-			this.sortField = value.substring(1, value.length);
-		}
-		else {
-			this.sortOrder = 1;
-			this.sortField = value;
-		}
-	}
+    @ViewChild('dt') table!: Table;
 
-	teste(event: any) {
-		console.log("teste");
-	}
+    constructor(private customerService: CustomerService) { }
+
+    ngOnInit() {
+        this.customerService.getCustomersLarge().then(customers => {
+            this.customers = customers;
+            this.loading = false;
+        });
+
+        this.representatives = [
+            {name: "Amy Elsner", image: 'amyelsner.png'},
+            {name: "Anna Fali", image: 'annafali.png'},
+            {name: "Asiya Javayant", image: 'asiyajavayant.png'},
+            {name: "Bernardo Dominic", image: 'bernardodominic.png'},
+            {name: "Elwin Sharvill", image: 'elwinsharvill.png'},
+            {name: "Ioni Bowcher", image: 'ionibowcher.png'},
+            {name: "Ivan Magalhaes",image: 'ivanmagalhaes.png'},
+            {name: "Onyama Limba", image: 'onyamalimba.png'},
+            {name: "Stephen Shaw", image: 'stephenshaw.png'},
+            {name: "XuXue Feng", image: 'xuxuefeng.png'}
+        ];
+
+        this.statuses = [
+            {label: 'Unqualified', value: 'unqualified'},
+            {label: 'Qualified', value: 'qualified'},
+            {label: 'New', value: 'new'},
+            {label: 'Negotiation', value: 'negotiation'},
+            {label: 'Renewal', value: 'renewal'},
+            {label: 'Proposal', value: 'proposal'}
+        ]
+    }
+
+    onActivityChange(event: any) {
+        const value = event.target.value;
+        if (value && value.trim().length) {
+            const activity = parseInt(value);
+
+            if (!isNaN(activity)) {
+                this.table.filter(activity, 'activity', 'gte');
+            }
+        }
+    }
+
+    onDateSelect(value: any) {
+        this.table.filter(this.formatDate(value), 'date', 'equals')
+    }
+
+    formatDate(date: any) {
+        let month = date.getMonth() + 1;
+        let day = date.getDate();
+
+        if (month < 10) {
+            month = '0' + month;
+        }
+
+        if (day < 10) {
+            day = '0' + day;
+        }
+
+        return date.getFullYear() + '-' + month + '-' + day;
+    }
+
+    onRepresentativeChange(event: any) {
+        this.table.filter(event.value, 'representative', 'in')
+    }
+	
 }

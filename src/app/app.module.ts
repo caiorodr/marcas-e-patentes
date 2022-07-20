@@ -28,17 +28,34 @@ import { RatingModule } from "primeng/rating";
 import { DataViewModule } from "primeng/dataview";
 import { DropdownModule } from "primeng/dropdown";
 import { AppMainComponent } from "./app.main.component";
-import { ProcessosComponent } from './components/processos/processos.component';
 import { PedidosComponent } from './components/pedidos/pedidos.component';
+//
+
+import {CalendarModule} from 'primeng/calendar';
+import {SliderModule} from 'primeng/slider';
+import {MultiSelectModule} from 'primeng/multiselect';
+import {ContextMenuModule} from 'primeng/contextmenu';
+import {ProgressBarModule} from 'primeng/progressbar';
+
+import { CustomerService } from './components/processos/customeservice';
+import { ProcessosComponent } from './components/processos/processos.component';
+
+import {StepsModule} from 'primeng/steps';
+
+
+//
+
+
+
 
 
 @NgModule({
 	declarations: [
-		AppComponent,
 		DashboardComponent,
-		AppMainComponent,
-		ProcessosComponent,
+		AppComponent,
 		PedidosComponent,
+		ProcessosComponent,
+		AppMainComponent,
 	],
 	imports: [
 		BrowserModule,
@@ -63,12 +80,20 @@ import { PedidosComponent } from './components/pedidos/pedidos.component';
 		DropdownModule,
 		ChartModule,
 		PanelModule,
-		DialogModule
+		DialogModule,
+		CalendarModule,
+		SliderModule,
+		MultiSelectModule,
+		ContextMenuModule,
+		ProgressBarModule,
+		StepsModule
 	],
 	providers: [
-		MessageService
+		CustomerService,
 	],
-	bootstrap: [AppComponent]
+	bootstrap: [
+		AppComponent,
+		ProcessosComponent]
 })
 export class AppModule {
 }
